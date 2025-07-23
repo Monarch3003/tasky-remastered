@@ -27,7 +27,7 @@ const Register = () => {
 
   return (
     <Container maxWidth="sm">
-      <Box sx={{ py: 8 }}>
+      <Box sx={{ py: 5 }}>
         <Typography variant="h4" fontWeight="bold" gutterBottom align="center">
           Create a New Account
         </Typography>
@@ -35,19 +35,26 @@ const Register = () => {
           It only takes 20 seconds
         </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4 }}>
-          <TextField label="Full Name" fullWidth required margin="normal" />
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <TextField label="First Name" fullWidth required margin="normal" />
+          <TextField label="Last Name" fullWidth required margin="normal" />
+          <TextField label="User Name" fullWidth required margin="normal" />
           <TextField label="Email" type="email" fullWidth required margin="normal" />
           <TextField label="Contact Number" fullWidth required margin="normal" />
+           <TextField
+          label="Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          required />
+          <TextField
+          label="Confirm Password"
+          type="password"
+          fullWidth
+          margin="normal"
+          required />
 
-          <Grid container spacing={2} alignItems="center">
-            <Grid item xs={9}>
-              <TextField label="Domain" fullWidth required placeholder="yourname" />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="body1">.tasky.in</Typography>
-            </Grid>
-          </Grid>
+         
 
           <FormControl fullWidth required margin="normal">
             <InputLabel>Select Plan</InputLabel>
