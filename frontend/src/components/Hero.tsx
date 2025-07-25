@@ -7,7 +7,7 @@ const Hero = () => {
       id="home"
       sx={{
         py: 10,
-        background: "linear-gradient(to bottom, #f8f9ff, #ffffff)",
+        background: "linear-gradient(to bottom, #32343fff, #adb6d3ff)",
       }}
     >
       <Container
@@ -36,7 +36,7 @@ const Hero = () => {
 
           <Typography variant="h2" fontWeight="bold" gutterBottom>
             Automate Workflows{" "}
-            <Box component="span" color="primary.main">
+            <Box component="span" color="red">
               Faster
             </Box>
             <br />

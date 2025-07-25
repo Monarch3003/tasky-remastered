@@ -26,6 +26,7 @@ export const createTask = async (req: Request, res: Response) => {
 
 // Get all tasks (excluding soft-deleted)
 export const getTasks = async (req: Request, res: Response) => {
+   console.log("User from token:", req.user);
   try {
     const userId = req.user?.id;
 

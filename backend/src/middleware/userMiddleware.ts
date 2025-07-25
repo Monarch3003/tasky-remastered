@@ -12,8 +12,10 @@ export const authenticate = (req: Request, res: Response, next: NextFunction) =>
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as UserPayload;
     req.user = decoded;
+     console.log("Decoded user from cookie:", decoded);
     next();
   } catch (error) {
+    console.error("JWT verification failed:", error);
     return res.status(403).json({ message: "Invalid or expired token" });
   }
 };

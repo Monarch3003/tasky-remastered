@@ -1,28 +1,78 @@
 import {
   Box,
   Button,
-  Container,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
+  Container, 
   TextField,
   Typography,
   Checkbox,
   FormControlLabel,
   Link,
-  Grid,
 } from "@mui/material";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import API from "../api/axios"; 
+
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  userName: string;
+  password: string;
+}
 
 const Register = () => {
-  const [plan, setPlan] = useState("");
+  // const [plan, setPlan] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formError, setFormError] = useState("");
+
+  const navigate = useNavigate();
+
+  const { isPending, mutate } = useMutation({
+    mutationKey: ["register-user"],
+    mutationFn: async (newUser: User) => {
+      const response = await API.post("/auth/Register", newUser); 
+      return response.data;
+    },
+    onError: (error: any) => {
+      const message =
+        error?.response?.data?.message || "Something went wrong. Try again later.";
+      setFormError(message);
+    },
+    onSuccess: () => {
+      navigate("/Login");
+    },
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!agreed) return alert("Please agree to the terms");
-    // handle registration logic here
+    setFormError("");
+
+    if (!agreed) {
+      setFormError("Please agree to the terms and privacy policy.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setFormError("Passwords do not match.");
+      return;
+    }
+
+    const newUser: User = {
+      firstName,
+      lastName,
+      email,
+      userName,
+      password,
+    };
+
+    mutate(newUser);
   };
 
   return (
@@ -35,28 +85,66 @@ const Register = () => {
           It only takes 20 seconds
         </Typography>
 
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          <TextField label="First Name" fullWidth required margin="normal" />
-          <TextField label="Last Name" fullWidth required margin="normal" />
-          <TextField label="User Name" fullWidth required margin="normal" />
-          <TextField label="Email" type="email" fullWidth required margin="normal" />
-          <TextField label="Contact Number" fullWidth required margin="normal" />
-           <TextField
-          label="Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          required />
+        {formError && (
+          <Typography color="error" align="center" mb={2}>
+            {formError}
+          </Typography>
+        )}
+
+        <Box component="form" onSubmit={handleSubmit}>
           <TextField
-          label="Confirm Password"
-          type="password"
-          fullWidth
-          margin="normal"
-          required />
+            label="First Name"
+            fullWidth
+            required
+            margin="normal"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextField
+            label="Last Name"
+            fullWidth
+            required
+            margin="normal"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <TextField
+            label="User Name"
+            fullWidth
+            required
+            margin="normal"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <TextField
+            label="Email"
+            type="email"
+            fullWidth
+            required
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            label="Password"
+            type="password"
+            fullWidth
+            required
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            label="Confirm Password"
+            type="password"
+            fullWidth
+            required
+            margin="normal"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-         
-
-          <FormControl fullWidth required margin="normal">
+          {/* <FormControl fullWidth required margin="normal">
             <InputLabel>Select Plan</InputLabel>
             <Select
               value={plan}
@@ -67,13 +155,19 @@ const Register = () => {
               <MenuItem value="pro">Pro</MenuItem>
               <MenuItem value="enterprise">Enterprise</MenuItem>
             </Select>
-          </FormControl>
+          </FormControl> */}
 
           <FormControlLabel
-            control={<Checkbox checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />}
+            control={
+              <Checkbox
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+              />
+            }
             label={
               <Typography variant="body2">
-                I agree to the <Link href="#">terms</Link> & <Link href="#">privacy policy</Link>
+                I agree to the <Link href="#">terms</Link> &{" "}
+                <Link href="#">privacy policy</Link>
               </Typography>
             }
             sx={{ mt: 2 }}
@@ -85,10 +179,10 @@ const Register = () => {
             size="large"
             fullWidth
             sx={{ mt: 3, borderRadius: 2 }}
+            disabled={isPending}
           >
-            Sign Up
+            {isPending ? "Signing up..." : "Sign Up"}
           </Button>
-          
         </Box>
       </Box>
     </Container>

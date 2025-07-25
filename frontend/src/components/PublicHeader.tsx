@@ -1,7 +1,7 @@
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
-const navItems = ['Home', 'Features', 'Pricing', 'FAQs'];
+const navItems = ['Home', 'FAQs'];
 
 const Header = () => {
   return (
@@ -23,7 +23,7 @@ const Header = () => {
 
         
         <Button variant="contained" href="/Login" sx={{ textTransform: 'none' }}>
-          Make a Task
+          Start Tasking
         </Button>
       </Toolbar>
     </AppBar>

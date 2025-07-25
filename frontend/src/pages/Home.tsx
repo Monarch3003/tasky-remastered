@@ -4,7 +4,7 @@ import { FeaturesSection } from '../components/Features';
 import { TestimonialsSection } from '../components/Testimonials';
 import { DashboardPreview } from '../components/DashBoardPreview';
 import { FAQsSection } from '../components/FAQsSection';
-import { Footer } from '../components/Footer'; 
+// import { Footer } from '../components/Footer'; 
 
 const Home = () => {
   return (
@@ -14,7 +14,7 @@ const Home = () => {
       <TestimonialsSection />
       <DashboardPreview />
       <FAQsSection />
-      <Footer />
+      
     </>
   );
 };
