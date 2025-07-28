@@ -24,7 +24,7 @@ export const createTask = async (req: Request, res: Response) => {
   }
 };
 
-// Get all tasks (excluding soft-deleted)
+// Get all tasks
 export const getTasks = async (req: Request, res: Response) => {
    console.log("User from token:", req.user);
   try {
@@ -33,7 +33,6 @@ export const getTasks = async (req: Request, res: Response) => {
     const tasks = await prisma.task.findMany({
       where: {
         userId,
-        isDeleted: false,
       },
       orderBy: {
         dateCreated: "desc",
@@ -59,6 +58,8 @@ export const getTaskById = async (req: Request, res: Response) => {
         isDeleted: false,
       },
     });
+    // console.log(task);
+    
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
@@ -80,7 +81,8 @@ export const updateTask = async (req: Request, res: Response) => {
     const task = await prisma.task.findFirst({
       where: { id, userId, isDeleted: false },
     });
-
+    // console.log(task);
+    
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
     }

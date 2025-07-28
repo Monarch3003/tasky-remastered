@@ -1,6 +1,7 @@
 import express, { Express } from 'express';
-import userRoutes from './routes/user.routes';
+import userRoutes from './routes/auth.routes';
 import taskRoutes from './routes/task.routes';
+import profileRouter from './routes/user.route'
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 
@@ -20,7 +21,8 @@ app.get("/", (_req, res) => {
 });
 
 app.use("/api/auth", userRoutes);
-app.use("/api", taskRoutes);
+app.use("/api/tasks", taskRoutes);
+app.use("/api/user", profileRouter)
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => console.log(`App is live on port ${port}`));

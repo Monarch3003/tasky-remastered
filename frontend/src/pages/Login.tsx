@@ -24,6 +24,7 @@ const LoginPage = () => {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState("");
+  const { setUser } = useUser();
 
   const { isPending, mutate } = useMutation({
     mutationKey: ["login-user"],
@@ -41,8 +42,17 @@ const LoginPage = () => {
     },
     onSuccess: (data: any) => {
       console.log("Login success:", data); // 👈 log this
-      const { setUser } = useUser.getState();
-      setUser(data.user);
+      const user = {
+        id: data.userData.id,
+        firstName: data.userData.firstName,
+        lastName: data.userData.lastName,
+        userName: data.userData.username,
+        email: data.userData.email,
+        avatar: data.userData.avatar,
+        lastUpdated: data.userData.lastUpdated,
+        token: data.token
+      }
+      setUser(user);
       navigate("/tasks");
     },
   });

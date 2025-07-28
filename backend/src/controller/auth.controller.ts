@@ -70,7 +70,7 @@ export async function loginUser(req: Request, res: Response) {
         sameSite: "lax",
       })
       .status(200)
-      .send(userData);
+      .send({userData, token});
   } catch (error) {
     console.error("Login Error:", error);
     return res.status(500).json({ message: "Failed to login" });
@@ -146,7 +146,7 @@ export async function getUserProfile(req: Request, res: Response) {
 
 export async function updateUserProfile(req: Request, res: Response) {
   try {
-    const { id } = req.user;
+    const id = req?.user.id
     const { firstName, lastName, userName, email, avatar } = req.body;
 
     const updatedUser = await prisma.user.update({

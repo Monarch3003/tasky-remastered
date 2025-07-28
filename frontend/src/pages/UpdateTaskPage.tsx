@@ -23,14 +23,18 @@ const UpdateTaskPage = () => {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const res = await API.get(`/api/tasks/${id}`, {
+        const res = await API.get(`/tasks/${id}`, {
           headers: {
             Authorization: `Bearer ${user?.token}`,
           },
         });
-        setTitle(res.data.task.title);
-        setDescription(res.data.task.description);
+        // console.log(res.data);
+        
+        setTitle(res.data.title);
+        setDescription(res.data.description);
       } catch (err) {
+        console.log(err);
+        
         toast.error("Failed to fetch task");
       } finally {
         setLoading(false);
@@ -43,7 +47,7 @@ const UpdateTaskPage = () => {
     e.preventDefault();
     try {
       await API.patch(
-        `/api/tasks/${id}`,
+        `/tasks/${id}`,
         { title, description },
         {
           headers: {
