@@ -193,7 +193,7 @@ const ProfilePage: React.FC = () => {
     setProfileErrors({ firstName: "", lastName: "", userName: "", email: "" })
 
     try {
-      const response = await updateUserProfile(profileForm, user.token)
+      await updateUserProfile(profileForm, user.token)
 
       if (user) {
         const updatedUser = {
