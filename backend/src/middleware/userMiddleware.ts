@@ -3,7 +3,6 @@ import jwt from "jsonwebtoken";
 import { UserPayload } from "../types/index";
 
 export const authenticate = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.cookies);
   
   const token = req.cookies.tasky;
 
